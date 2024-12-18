@@ -1,6 +1,6 @@
 package com.yono.kickstat.utils;
 
-import com.yono.kickstat.dto.Standing;
+import com.yono.kickstat.entity.Standing;
 import com.yono.kickstat.dto.TableEntry;
 import lombok.experimental.UtilityClass;
 
@@ -8,8 +8,9 @@ import lombok.experimental.UtilityClass;
 public class StandingConverter {
     public static Standing toEntity(TableEntry entry, String competition) {
         return Standing.builder()
+                .apiId(entry.getTeam().getId()) // API에서 팀의 ID를 매핑
                 .competition(competition)
-                .teamName(entry.getTeam().getName())  // Team 객체에서 이름 가져오기
+                .teamName(entry.getTeam().getName())
                 .position(entry.getPosition())
                 .playedGames(entry.getPlayedGames())
                 .won(entry.getWon())

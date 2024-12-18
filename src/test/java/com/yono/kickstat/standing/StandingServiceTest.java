@@ -1,6 +1,6 @@
 package com.yono.kickstat.standing;
 
-import com.yono.kickstat.dto.Standing;
+import com.yono.kickstat.entity.Standing;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

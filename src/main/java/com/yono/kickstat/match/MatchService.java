@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +39,18 @@ public class MatchService {
 
     public List<Match> getAllMatches() {
         return matchRepository.findAll();
+    }
+
+    public List<Match> getMatchesByDate(LocalDate date) {
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.plusDays(1).atStartOfDay();
+        return matchRepository.findByMatchDateBetween(start, end);
+    }
+
+    public List<Match> getMatchesByDateRange(LocalDate startDate, LocalDate endDate) {
+        LocalDateTime start = startDate.atStartOfDay();
+        LocalDateTime end = endDate.plusDays(1).atStartOfDay();
+        return matchRepository.findByMatchDateBetween(start, end);
     }
 
 }

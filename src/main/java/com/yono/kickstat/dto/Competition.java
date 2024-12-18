@@ -10,3 +10,4 @@ public class Competition {
     private String name;
     private String code;
 }
+

@@ -1,4 +1,4 @@
-package com.yono.kickstat.dto;
+package com.yono.kickstat.entity;
 
 
 import jakarta.persistence.*;
@@ -16,6 +16,11 @@ public class Standing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @Column(unique = true) // API ID는 고유해야 함
+    private Long apiId;
+
+
     private String competition;
     private String teamName;
     private Integer position;
@@ -28,11 +33,26 @@ public class Standing {
     private Integer goalsAgainst;
 
     @Builder
-    public Standing(String competition, String teamName, Integer position,
+    public Standing(String competition, Long apiId, String teamName, Integer position,
                     Integer playedGames, Integer won, Integer draw, Integer lost,
                     Integer points, Integer goalsFor, Integer goalsAgainst) {
         this.competition = competition;
+        this.apiId = apiId;
         this.teamName = teamName;
+        this.position = position;
+        this.playedGames = playedGames;
+        this.won = won;
+        this.draw = draw;
+        this.lost = lost;
+        this.points = points;
+        this.goalsFor = goalsFor;
+        this.goalsAgainst = goalsAgainst;
+    }
+
+    // 엔티티 업데이트 메서드
+    public void updateStanding(Integer position, Integer playedGames, Integer won,
+                               Integer draw, Integer lost, Integer points,
+                               Integer goalsFor, Integer goalsAgainst) {
         this.position = position;
         this.playedGames = playedGames;
         this.won = won;

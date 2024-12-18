@@ -3,19 +3,18 @@ package com.yono.kickstat.match;
 import com.yono.kickstat.entity.Match;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/api/matches")  // 이 부분이 필요
 public class MatchController {
 
     private final MatchService matchService;
@@ -34,7 +33,27 @@ public class MatchController {
 
     @GetMapping
     public ResponseEntity<List<Match>> getMatches() {
-        List<Match> matches = matchService.getAllMatches();
+        LocalDate today = LocalDate.now();
+        // 오늘 날짜 기준 +-7일의 경기를 가져옴
+        List<Match> matches = matchService.getMatchesByDateRange(
+                today.minusDays(7),
+                today.plusDays(7)
+        );
+        return ResponseEntity.ok(matches);
+    }
+
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<Match>> getMatchesByDate(
+            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        List<Match> matches = matchService.getMatchesByDate(date);
+        return ResponseEntity.ok(matches);
+    }
+
+    @GetMapping("/range")
+    public ResponseEntity<List<Match>> getMatchesByDateRange(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate start,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
+        List<Match> matches = matchService.getMatchesByDateRange(start, end);
         return ResponseEntity.ok(matches);
     }
 }

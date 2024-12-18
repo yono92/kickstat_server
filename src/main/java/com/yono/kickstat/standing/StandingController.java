@@ -1,6 +1,6 @@
 package com.yono.kickstat.standing;
 
-import com.yono.kickstat.dto.Standing;
+import com.yono.kickstat.entity.Standing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
